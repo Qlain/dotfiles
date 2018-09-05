@@ -1,0 +1,183 @@
+Config { 
+
+    -- appearance
+
+        --font = "xft:migmix1pregular-11:Bold"
+        font = "xft:Koruri-11:Bold"
+        --, bgColor =      "#60FF60"
+        , fgColor =      "#ABABAB"
+        , position =     Bottom
+        , border =       BottomB
+        , borderColor =  "#646464"
+
+        -- layout
+        , sepChar =  "%"   -- delineator between plugin names and straight text
+        , alignSep = "}{"  -- separator between left-right alignment
+        , template = "<fc=#ee9a00>%lsb_release%</fc> | %multicpu% | %coretemp% | %memory% | %swap% | %devroot%:%disku%}{ <fc=#f0f0ff>%yohane%</fc>%RJCH%よ！| <fc=#ee9a00>%maru%</fc>%date%%zura% | <fc=#ff00a0>%ruby%</fc>%battery%です！"
+        --, template = "<fc=#ee9a00>%lsb_release%</fc> | %battery% | %multicpu% | %coretemp% | %memory% | %swap% | %devroot%:%disku% | %diskio% | %dynnetwork% }{ %RJTT% | %date% || %kbd% "
+
+        -- general behavior
+        , lowerOnStart =     True    -- send to bottom of window stack on start
+        , hideOnStart =      False   -- start with window unmapped (hidden)
+        , allDesktops =      True    -- show on all desktops
+        , overrideRedirect = True    -- set the Override Redirect flag (Xlib)
+        , pickBroadest =     False   -- choose widest display (multi-monitor)
+        , persistent =       True    -- enable/disable hiding (True = disabled)
+
+        -- plugins
+        --   Numbers can be automatically colored according to their value. xmobar
+        --   decides color based on a three-tier/two-cutoff system, controlled by
+        --   command options:
+        --     --Low sets the low cutoff
+        --     --High sets the high cutoff
+        --
+        --     --low sets the color below --Low cutoff
+        --     --normal sets the color between --Low and --High cutoffs
+        --     --High sets the color above --High cutoff
+        --
+        --   The --template option controls how the plugin is displayed. Text
+        --   color can be set by enclosing in <fc></fc> tags. For more details
+        --   see http://projects.haskell.org/xmobar/#system-monitor-plugins.
+        , commands = 
+
+        -- weather monitor
+        --[ Run Weather "RJCH" [ "--template", "<skyConditioin> | <fc=#4682B4><tempC></fc>°C | <fc=#4682B4><rh></fc>% | <fc=#4682B4><pressure></fc>hPa"
+        --[ Run Weather "RJCH" [ "--template", "<station> | <skyCondition> | <fc=#4682B4><tempC></fc>°C | <fc=#4682B4><rh></fc>%"
+        [ Run Weather "RJCH" [ "--template", "Hakodate | <skyCondition> | <fc=#4682B4><tempC></fc>°C | <fc=#4682B4><rh></fc>%"
+        ] 36000
+
+        , Run Com "sh" [ "-c", "echo '从c*•ヮ•§  < '"
+        ] "chika" 864000
+
+        , Run Com "sh" [ "-c", "echo 'ﾒｲ*σ _ σﾘ < '"
+        ] "rikoA" 864000
+
+        , Run Com "sh" [ "-c", "echo 'ﾒﾉ＾ﾉ｡ ＾ﾘ < '"
+        ] "rikoB" 864000
+
+        , Run Com "sh" [ "-c", "echo '∫∫( c||^ヮ^|| < '"
+        ] "kanan" 864000
+
+        , Run Com "sh" [ "-c", "echo '|c||^.- ^|| < '"
+        ] "dia" 864000
+
+        , Run Com "sh" [ "-c", "echo '(*> ᴗ •*)ゞ < '"
+        ] "you" 864000
+
+        , Run Com "sh" [ "-c", "echo ' ﾒﾒ´- ﾝﾄ < '"
+        ] "youB" 864000
+        
+        , Run Com "sh" [ "-c", "echo 'ﾉcﾉ,,･o･,,ﾉﾚ < '"
+        -- ﾉcﾉ*･o･ﾉﾚ
+
+        ] "maru" 864000
+
+        , Run Com "sh" [ "-c", "echo ' ずら'"
+        ] "zura" 864000
+
+        , Run Com "sh" [ "-c", "echo '`¶cﾘ˘ヮ˚)| < '"
+        ] "yohane" 864000
+
+        , Run Com "sh" [ "-c", "echo 'ﾉξｿ>ω<ﾊ6 < '"
+        ] "mari" 864000
+
+        , Run Com "sh" [ "-c", "echo '⌒°( ･ω･)°⌒  < '"
+        ] "ruby" 864000
+
+            --[ "-c", "mount | grep ' / ' | awk '{print $1}' | cut -d / -f 3"
+        , Run Com "sh" [ "-c", "lsb_release -s -d | tr -d '\"' | cut -d ' ' -f 1-3"
+        ] "lsb_release" 18000
+
+        -- network activity monitor (dynamic interface resolution)
+        , Run DynNetwork     [ "--template" , "<dev>: <tx>kB/s|<rx>kB/s"
+            --, "--Low"      , "1000"       -- units: kB/s
+            --, "--High"     , "5000"       -- units: kB/s
+            --, "--low"      , "darkgreen"
+            --, "--normal"   , "darkorange"
+            --, "--high"     , "darkred"
+        ] 10
+
+        -- cpu activity monitor
+        , Run MultiCpu       [ "--template" , "Cpu: <total0>% | <total1>% | <total2>% | <total3>% | <total4>% | <total5>% | <total6>% | <total7>%"
+            , "--Low"      , "50"         -- units: %
+            , "--High"     , "85"         -- units: %
+            , "--low"      , "darkgreen"
+            , "--normal"   , "darkorange"
+            , "--high"     , "darkred"
+        ] 10
+
+        -- cpu core temperature monitor
+        , Run CoreTemp       [ "--template" , "Temp: <core0>°C"
+            , "--Low"      , "70"        -- units: °C
+            , "--High"     , "80"        -- units: °C
+            , "--low"      , "darkgreen"
+            , "--normal"   , "darkorange"
+            , "--high"     , "darkred"
+        ] 50
+
+        -- memory usage monitor
+        , Run Memory         [ "--template" ,"Mem: <usedratio>%"
+            , "--Low"      , "20"        -- units: %
+            , "--High"     , "90"        -- units: %
+            , "--low"      , "darkgreen"
+            , "--normal"   , "darkorange"
+            , "--high"     , "darkred"
+        ] 10
+
+        -- swap usage monitor
+        , Run Swap           [ "--template" , "Swap: <usedratio>%"
+        ] 10
+
+        -- get device name mounted at /
+        , Run Com            "sh"
+            [ "-c", "mount | grep ' / ' | awk '{print $1}' | cut -d / -f 3"
+        ] "devroot" 50000
+
+        -- disk usage monitor
+        , Run DiskU          [ ("/"         , " <usedp><fc=#646464>%</fc>") ]
+            [ "--Low"      , "80"         -- units: %
+            , "--High"     , "90"         -- units: %
+            , "--low"      , "blue"
+            , "--normal"   , "darkorange"
+            , "--high"     , "red"
+        ] 50
+
+        -- disk i/o monitor
+        , Run DiskIO         [ ("sda3"      , "<read><fc=#646464>B/s</fc> <write><fc=#646464>B/s</fc>") ]
+            [ "--Low"      , "50"         -- units: kB/s
+            , "--High"     , "300"        -- units: kB/s
+            , "--low"      , "blue"
+            , "--normal"   , "darkorange"
+            , "--high"     , "red"
+        ] 10
+
+        -- battery monitor
+            --, Run Battery        [ "--template" , "Power: <acstatus>"
+            , Run Battery        [ "--template" , "<acstatus>"
+            , "--Low"      , "10"        -- units: %
+            , "--High"     , "80"        -- units: %
+            --, "--low"      , "darkred"
+            --, "--normal"   , "darkorange"
+            --, "--high"     , "darkgreen"
+
+            , "--" -- battery specific options
+            -- discharging status
+            , "-o"	, "<left>% (<timeleft>)"
+            -- AC "on" status
+            --, "-O"	, "<left>% <fc=#dAA520>充電中</fc>"
+            , "-O"	, "<left>% 充電中"
+            -- charged status
+            --, "-i"	, "<left>% <fc=#006000>充電完了</fc>"
+            , "-i"	, "<left>% 充電完了"
+        ] 50
+
+        -- time and date indicator 
+        --   (%F = y-m-d date, %a = day of week, %T = h:m:s time)
+        , Run Date           "<fc=#ABABAB>%F (%a) %T</fc>" "date" 10
+
+        -- keyboard layout indicator
+        , Run Kbd            [ ("us(dvorak)" , "<fc=#00008B>DV</fc>")
+        , ("us"         , "<fc=#8B0000>US</fc>")
+        ]
+    ]
+}
